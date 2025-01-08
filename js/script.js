@@ -1,99 +1,55 @@
-/**
- * 1. send request to API to retrieve data from all products
- * 2. create product cards
- */
-
-/** 1 */
-
+/** Retrieve all products data from the API */
 const fetchRequest = async () => {
   const url = "http://localhost:3000/api/products/";
 
   try {
     const response = await fetch(url);
-    const value = await response.json();
+    const products = await response.json();
 
-    for (data of value) {
-      createProductLink(data);
-      createProductImg(data);
-      createProductName(data);
-      createProductDesc(data);
+    const productsContainer = document.getElementById("items");
+
+    for (let product of products) {
+      const productCard = createProductCard(product);
+      productsContainer.appendChild(productCard);
     }
   } catch (error) {
-    Error({ message: "une erreur est survenue", error });
+    console.error("Une erreur est survenue :", error);
+    alert("Impossible de charger les produits. Veuillez réessayer plus tard.");
   }
 };
 fetchRequest();
 
-/** 2 */
-
-/**
- * create product link
- * configure the url settings with the product id
- */
-
-const createProductLink = (product) => {
-  const section = document.getElementById("items");
-
+/** Create the product card */
+const createProductCard = ({ _id, imageUrl, altTxt, name, description }) => {
+  // Create <a> element
   const productLink = document.createElement("a");
-  productLink.href = "./html/product.html?id=" + product._id;
-  section.appendChild(productLink);
+  productLink.href = `./product.html?id=${_id}`;
 
-  createProductCard(productLink);
-};
-
-/**
- * create product cards
- */
-
-const createProductCard = (productLink) => {
+  // Create <article> element
   const productCard = document.createElement("article");
-  productLink.appendChild(productCard);
-};
 
-/**
- * create product image
- */
-
-const createProductImg = (product) => {
-  const productCards = document.getElementsByTagName("article");
-
+  // Create <img> element
   const productImg = document.createElement("img");
-  productImg.src = product.imageUrl;
-  productImg.alt = product.altTxt + ", " + product.name;
+  productImg.src = imageUrl;
+  productImg.alt = `${altTxt}, ${name}`;
 
-  for (let i = 0; i < productCards.length; i++) {
-    productCards[i].appendChild(productImg);
-  }
-};
-
-/**
- * create product name
- */
-
-const createProductName = (product) => {
-  const productCards = document.getElementsByTagName("article");
-
+  // Create <h3> element
   const productName = document.createElement("h3");
   productName.classList.add("productName");
-  productName.textContent = product.name;
+  productName.textContent = name;
 
-  for (let i = 0; i < productCards.length; i++) {
-    productCards[i].appendChild(productName);
-  }
-};
-
-/**
- * create product description
- */
-
-const createProductDesc = (product) => {
-  const productCards = document.getElementsByTagName("article");
-
+  // Create <p> element
   const productDesc = document.createElement("p");
   productDesc.classList.add("productDescription");
-  productDesc.textContent = product.description;
+  productDesc.textContent = description;
 
-  for (let i = 0; i < productCards.length; i++) {
-    productCards[i].appendChild(productDesc);
-  }
+  // Append elements to the article
+  productCard.appendChild(productImg);
+  productCard.appendChild(productName);
+  productCard.appendChild(productDesc);
+
+  // Append the article to the link
+  productLink.appendChild(productCard);
+
+  return productLink;
 };
