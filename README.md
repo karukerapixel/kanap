@@ -80,6 +80,6 @@ Ensure the API is running on `http://localhost:3000/api/products/`. The API shou
 
 Contributions are welcome! Please fork the repository and submit a pull request.
 
-## License
+## Author
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+**Karukera Pixel** 
