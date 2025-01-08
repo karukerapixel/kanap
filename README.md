@@ -1,4 +1,4 @@
-# Cart Management Application
+# Kanap - E-commerce Application
 
 This project is a JavaScript-based cart management system designed for an e-commerce application. It retrieves product data from an API, displays it dynamically on the web page, and allows users to manage their shopping cart and place orders.
 
